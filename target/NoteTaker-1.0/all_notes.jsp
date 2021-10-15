@@ -1,8 +1,9 @@
 <%@ page import="org.hibernate.Session" %>
 <%@ page import="com.helper.FactoryProvider" %>
-<%@ page import="org.hibernate.Query" %>
 <%@ page import="com.entities.Note" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.entities.User" %>
+<%@ page import="com.entities.UserDao" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -11,6 +12,16 @@
     <title>All Note: Note Taker</title>
     <%@include file="all_js_css.jsp"%>
 </head>
+<%
+    HttpSession httpSession = request.getSession();
+    User user = (User) httpSession.getAttribute("current-User");
+    if(user==null){
+        out.println("YOU NEED TO SIGN IN TO DISPLAY NOTES");
+    }
+    else{
+        Session s= FactoryProvider.getFactory().openSession();
+        UserDao userDao =new UserDao(FactoryProvider.getFactory());
+%>
 <body>
 <div class="container">
     <%@include file="navbar.jsp"%>
@@ -19,9 +30,12 @@
     <div class="row">
         <div class="col-12">
             <%
-                Session s= FactoryProvider.getFactory().openSession();
-                Query q=s.createQuery("from Note");
-                List<Note> list=q.list();
+                List<Note> list= userDao.getNotesbyUserId(user.getUserId());
+                if(list.isEmpty()){
+            %>
+                  <h3>You dont have Notes &nbsp;&nbsp;<a href="add_notes.jsp">Click here to Add</a></h3>
+            <%
+                }
                 for (Note note: list){
             %>
             <div class="card mt-3">
@@ -41,6 +55,7 @@
             <%
                 }
                 s.close();
+                }
             %>
         </div>
         </div>

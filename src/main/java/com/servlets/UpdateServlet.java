@@ -22,6 +22,7 @@ public class UpdateServlet extends HttpServlet {
         try{
             String title=request.getParameter("title");
             String content=request.getParameter("content");
+
             Session s= FactoryProvider.getFactory().openSession();
             int noteId=Integer.parseInt(request.getParameter("noteId").trim());
             Transaction tx=s.beginTransaction();

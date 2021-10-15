@@ -1,6 +1,7 @@
 package com.servlets;
 
 import com.entities.Note;
+import com.entities.UserDao;
 import com.helper.FactoryProvider;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -21,6 +22,7 @@ public class DeleteServlet extends HttpServlet {
        try{
            int noteId=Integer.parseInt(request.getParameter("note_id").trim());
            Session s= FactoryProvider.getFactory().openSession();
+           UserDao userDao = new UserDao(FactoryProvider.getFactory());
            Transaction tx=s.beginTransaction();
            Note note=(Note) s.get(Note.class,noteId);
            s.delete(note);

@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Tarun Dhiman
-  Date: 12-05-2021
-  Time: 10:41 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.entities.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,7 +11,6 @@
     <br>
     <h1>Please fill your Notes Detail</h1>
     <br>
-    <%--This is Add Form--%>
     <form action="SaveNoteServlet" method="post">
         <div class="mb-3">
             <label for="title" class="form-label">Note Title</label>
